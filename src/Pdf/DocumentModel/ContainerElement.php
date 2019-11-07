@@ -23,20 +23,20 @@ abstract class ContainerElement implements HtmlElement
     /** @var array<HtmlElement>  */
     protected $children = [];
 
-    /** @var string */
+    /** @var ?string */
     protected $header;
 
-    /** @var string */
+    /** @var ?string */
     protected $footer;
 
     /** @var string */
     protected $html;
 
-    /** @var string */
+    /** @var ?string */
     protected $style;
 
 
-    public function __construct(string $html, $header = null, $footer = null, string $style = null)
+    public function __construct(string $html, ?string $header = null, ?string $footer = null, ?string $style = null)
     {
         $this->html = $this->surroundWithSelf($html);
         $this->header = $this->extractHeader() ?? $header;
@@ -45,19 +45,24 @@ abstract class ContainerElement implements HtmlElement
         $this->extractChildren();
     }
 
-    public function getHeader()
+    public function getHeader(): ?string
     {
         return $this->header;
     }
 
-    public function getFooter()
+    public function getFooter(): ?string
     {
         return $this->footer;
     }
 
-    public function getStyle()
+    public function getStyle(): ?string
     {
         return $this->style;
+    }
+
+    public function getHtml(): string
+    {
+        return $this->html;
     }
 
     public function getChildren(): array

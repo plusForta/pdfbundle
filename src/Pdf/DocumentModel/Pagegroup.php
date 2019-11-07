@@ -10,8 +10,4 @@ class Pagegroup extends ContainerElement
 
     protected const SUPPORTED_CHILDREN = [Page::ELEMENT_NAME];
 
-    public function toHtml(): string
-    {
-        // TODO: Implement toHtml() method.
-    }
 }

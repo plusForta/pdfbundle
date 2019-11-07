@@ -34,7 +34,7 @@ class MpdfRenderer implements PdfRendererInterface
 
 
     /** @throws \Mpdf\MpdfException */
-    public function render(string $html)
+    public function render(string $html): string
     {
         if ($this->directMode) {
             $this->pdf->WriteHTML($html);
@@ -45,7 +45,7 @@ class MpdfRenderer implements PdfRendererInterface
         $this->renderChildren($document->getChildren());
 
         $this->pdf->WriteHTML($html);
-        return $this->pdf->Output();
+        return $this->pdf->Output(Destination::STRING_RETURN);
     }
 
     /**
@@ -54,17 +54,29 @@ class MpdfRenderer implements PdfRendererInterface
      */
     protected function renderPage(Page $page): void
     {
+        $style = $page->getStyle();
+        $header = $page->getHeader();
+        $footer = $page->getFooter();
         $this->logger->debug('renderPage', [
-            'header' => $page->getHeader(),
-            'footer' => $page->getFooter(),
-            'style' => $page->getStyle(),
-            'content' => $page->toHtml(),
+            'header' => $header,
+            'footer' => $footer,
+            'style' => $style,
+            'content' => $page->getHtml(),
         ]);
-        $this->pdf->WriteHTML($page->getStyle(), HTMLParserMode::HEADER_CSS);
-        $this->pdf->SetHTMLHeader($page->getHeader());
-        $this->pdf->SetHTMLFooter($page->getFooter());
+        if ($style !== null) {
+            $this->pdf->WriteHTML($style, HTMLParserMode::HEADER_CSS);
+        }
+
+        if ($header !== null) {
+            $this->pdf->SetHTMLHeader($header);
+        }
+
+        if ($footer !== null) {
+            $this->pdf->SetHTMLFooter($footer);
+        }
+
         $this->pdf->addPage();
-        $this->pdf->WriteHTML($page->toHtml());
+        $this->pdf->WriteHTML($page->getHtml());
     }
 
     /**
