@@ -29,6 +29,8 @@ class PlusFortaPdfExtension extends Extension
 
         $definition = $container->getDefinition('PlusForta\PdfBundle\Pdf\MpdfRenderer');
         $definition->setArgument(1, $this->getMode($config));
+        $definition->setArgument(2, $this->getCustomFonts($config));
+        $definition->setArgument(3, $this->getCustomFontDirectory($config));
 
         $definition = $container->getDefinition('html.renderer');
         $definition->setArgument(2, $this->getTemplateDirectoryPrefix($config));
@@ -47,6 +49,30 @@ class PlusFortaPdfExtension extends Extension
     private function getMode(array $config)
     {
         return $config['direct_mode'];
+    }
+
+    private function getCustomFonts(array $config): ?array
+    {
+        if ($config['pdf']['fonts'] === null) {
+            return null;
+        }
+
+        $fonts = [];
+        foreach ($config['pdf']['fonts'] as $font) {
+            $fontname = $font['fontname'];
+            if (!isset($fonts[$fontname])) {
+                $fonts[$fontname] = [];
+            }
+
+            $fonts[$fontname][$font['type']]  = $font['filename'];
+        }
+
+        return $fonts;
+    }
+
+    private function getCustomFontDirectory(array $config): ?string
+    {
+        return $config['pdf']['fonts_directory'];
     }
 
     private function getTemplateDirectoryPrefix(array $config)

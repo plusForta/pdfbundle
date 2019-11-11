@@ -4,8 +4,10 @@
 namespace PlusForta\PdfBundle\Pdf;
 
 
+use Mpdf\Config\ConfigVariables;
 use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
+use Mpdf\Config\FontVariables;
 use Mpdf\Output\Destination;
 use PlusForta\PdfBundle\Pdf\DocumentModel\Document;
 use PlusForta\PdfBundle\Pdf\DocumentModel\Page;
@@ -24,12 +26,41 @@ class MpdfRenderer implements PdfRendererInterface
     /** @var bool */
     private $directMode;
 
-    public function __construct(LoggerInterface $logger, bool $directMode)
+    public function __construct(LoggerInterface $logger, bool $directMode, array $customFonts = null,string $customFontDirectory = null)
     {
         $logger->debug('direct_mode', ['direct_mode' => $directMode]);
-        $this->pdf = new Mpdf();
+
+        $config = [];
+        if ($customFonts) {
+            $config['fontdata'] = $this->getFonts($customFonts);
+        }
+
+        if ($customFontDirectory) {
+            $config['fontDir'] = $this->getFontDirectories($customFontDirectory);
+        }
+
+        $this->pdf = new Mpdf($config);
         $this->logger = $logger;
         $this->directMode = $directMode;
+    }
+
+    private function getFonts(array $customFonts): array
+    {
+        $fontVars = new FontVariables();
+        $fontDefaults = $fontVars->getDefaults();
+        $fontdata = array_merge($fontDefaults['fontdata'], ['fontawesome' => [
+            'R' => 'fa-duotone-900.ttf'
+        ]]);
+
+        return $fontdata;
+    }
+
+    private function getFontDirectories(string $customDirectory): array
+    {
+        $commonVars = new ConfigVariables();
+        $commonDefaults = $commonVars->getDefaults();
+        $commonDefaults['fontDir'][] = $customDirectory;
+        return $commonDefaults['fontDir'];
     }
 
 
