@@ -48,11 +48,7 @@ class MpdfRenderer implements PdfRendererInterface
     {
         $fontVars = new FontVariables();
         $fontDefaults = $fontVars->getDefaults();
-        $fontdata = array_merge($fontDefaults['fontdata'], ['fontawesome' => [
-            'R' => 'fa-duotone-900.ttf'
-        ]]);
-
-        return $fontdata;
+        return array_merge($fontDefaults['fontdata'], $customFonts);
     }
 
     private function getFontDirectories(string $customDirectory): array
