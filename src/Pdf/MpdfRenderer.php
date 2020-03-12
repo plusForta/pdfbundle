@@ -7,6 +7,7 @@ namespace PlusForta\PdfBundle\Pdf;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Mpdf;
 use Mpdf\Config\FontVariables;
+use Mpdf\Output\Destination;
 use Psr\Log\LoggerInterface;
 
 class MpdfRenderer implements PdfRendererInterface
@@ -59,7 +60,7 @@ class MpdfRenderer implements PdfRendererInterface
     public function render(string $html): string
     {
         $this->pdf->WriteHTML($html);
-        return $this->pdf->Output();
+        return $this->pdf->Output('', Destination::STRING_RETURN);
     }
 
 }
