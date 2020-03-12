@@ -24,7 +24,7 @@ class PlusFortaPdfRenderer
         $this->templateEngine = $templateEngine;
     }
 
-    public function render(string $templateName, array $context)
+    public function render(string $templateName, array $context):string
     {
         $template = $this->templateEngine->render($templateName, $context);
         return $this->pdf->render($template);

@@ -7,6 +7,7 @@ namespace PlusForta\PdfBundle\Pdf;
 use Mpdf\Config\ConfigVariables;
 use Mpdf\Mpdf;
 use Mpdf\Config\FontVariables;
+use Mpdf\MpdfException;
 use Mpdf\Output\Destination;
 use Psr\Log\LoggerInterface;
 
@@ -21,6 +22,12 @@ class MpdfRenderer implements PdfRendererInterface
 
     /** @var bool */
     private $directMode;
+
+    /** @var string[] */
+    private $prependedPdfs = [];
+
+    /** @var string[] */
+    private $appendedPdfs = [];
 
     public function __construct(LoggerInterface $logger, bool $directMode, array $customFonts = null,string $customFontDirectory = null)
     {
@@ -56,11 +63,49 @@ class MpdfRenderer implements PdfRendererInterface
     }
 
 
-    /** @throws \Mpdf\MpdfException */
+    /** @throws MpdfException */
     public function render(string $html): string
     {
+        $this->prependPages();
         $this->pdf->WriteHTML($html);
+        $this->appendPages();
+
         return $this->pdf->Output('', Destination::STRING_RETURN);
     }
+
+    public function prependPdf(array $files): void
+    {
+        $this->prependedPdfs = $files;
+    }
+
+    public function appendPdf(array $files): void
+    {
+        $this->appendedPdfs = $files;
+    }
+
+    private function prependPages(): void
+    {
+        foreach ($this->prependedPdfs as $file) {
+            $this->addPages($file);
+        }
+    }
+
+    private function appendPages(): void
+    {
+        foreach ($this->appendedPdfs as $file) {
+            $this->addPages($file);
+        }
+    }
+
+    private function addPages(string $file): void
+    {
+        $pagecount = $this->pdf->SetSourceFile($file);
+        for ($pageNum = 1; $pageNum <= $pagecount; $pageNum++) {
+            $importedPage = $this->pdf->ImportPage($pageNum);
+            $this->pdf->AddPage();
+            $this->pdf->UseTemplate($importedPage);
+        }
+    }
+
 
 }
