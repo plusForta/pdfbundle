@@ -85,10 +85,14 @@ class MpdfRenderer implements PdfRendererInterface
 
     private function prependPages(): void
     {
+        if (empty($this->prependedPdfs)) {
+            return;
+        }
+        
         foreach ($this->prependedPdfs as $file) {
             $this->addPages($file);
         }
-        
+
         $this->pdf->AddPage();
     }
 
