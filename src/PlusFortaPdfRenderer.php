@@ -6,8 +6,6 @@ namespace PlusForta\PdfBundle;
 
 use PlusForta\PdfBundle\Html\TemplateEngineInterface;
 use PlusForta\PdfBundle\Pdf\PdfRendererInterface;
-use Psr\Log\LoggerInterface;
-use Twig\Environment;
 
 class PlusFortaPdfRenderer
 {
@@ -42,10 +40,15 @@ class PlusFortaPdfRenderer
 
     public function render(string $templateName, array $context):string
     {
-        $template = $this->templateEngine->render($templateName, $context);
+        $template = $this->renderHtml($templateName, $context);
         $this->pdf->prependPdf($this->prependedPdfs);
         $this->pdf->appendPdf($this->appendedPdfs);
         return $this->pdf->render($template);
+    }
+
+    public function renderHtml(string $templateName, array $context): string
+    {
+        return $this->templateEngine->render($templateName, $context);
     }
 
 }

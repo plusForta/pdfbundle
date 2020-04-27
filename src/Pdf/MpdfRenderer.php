@@ -88,7 +88,7 @@ class MpdfRenderer implements PdfRendererInterface
         if (empty($this->prependedPdfs)) {
             return;
         }
-        
+
         foreach ($this->prependedPdfs as $file) {
             $this->addPages($file);
         }
