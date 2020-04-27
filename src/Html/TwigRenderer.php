@@ -31,7 +31,15 @@ class TwigRenderer implements TemplateEngineInterface
         $this->fileExtension = $fileExtension;
     }
 
-    public function render(string $templateName, $context)
+    /**
+     * @param string $templateName
+     * @param array $context
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function render(string $templateName, $context): string
     {
         return $this->twig->render($this->templateDirPrefix . $templateName . $this->fileExtension, $context);
     }

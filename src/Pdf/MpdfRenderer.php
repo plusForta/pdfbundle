@@ -29,6 +29,9 @@ class MpdfRenderer implements PdfRendererInterface
     /** @var string[] */
     private $appendedPdfs = [];
 
+    /** @var array */
+    private $config;
+
     public function __construct(LoggerInterface $logger, bool $directMode, array $customFonts = null,string $customFontDirectory = null)
     {
         $logger->debug('direct_mode', ['direct_mode' => $directMode]);
@@ -42,7 +45,7 @@ class MpdfRenderer implements PdfRendererInterface
             $config['fontDir'] = $this->getFontDirectories($customFontDirectory);
         }
 
-        $this->pdf = new Mpdf($config);
+        $this->config = $config;
         $this->logger = $logger;
         $this->directMode = $directMode;
     }
@@ -66,6 +69,7 @@ class MpdfRenderer implements PdfRendererInterface
     /** @throws MpdfException */
     public function render(string $html): string
     {
+        $this->pdf = new Mpdf($this->config);
         $this->prependPages();
         $this->pdf->WriteHTML($html);
         $this->appendPages();
@@ -88,7 +92,7 @@ class MpdfRenderer implements PdfRendererInterface
         if (empty($this->prependedPdfs)) {
             return;
         }
-        
+
         foreach ($this->prependedPdfs as $file) {
             $this->addPages($file);
         }
