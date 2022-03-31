@@ -41,7 +41,7 @@ class PlusFortaPdfExtension extends Extension
     /**
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'plusforta_pdf';
     }
