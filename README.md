@@ -1,5 +1,25 @@
 # PlusForta PDF Bundle
 
+## Installation
+
+Zuerst muss das github-Repository zur composer.json hinzugefügt werden. 
+
+**composer.json**
+````json
+"repositories": [
+    ...
+    {
+        "type": "git",
+        "url": "https://github.com/plusForta/pdfbundle.git"
+    },
+  ],
+````
+
+
+```shell
+composer require plusforta/pdfbundle:dev-master
+```
+
 ## Verwendung
 
 Der Service `PlusForta\PdfBundle\PlusFortaPdfRenderer` kann per Dependency Injection verwendet werden (public Service).
