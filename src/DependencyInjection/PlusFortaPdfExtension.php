@@ -17,11 +17,10 @@ class PlusFortaPdfExtension extends Extension
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-
 
         $configuration = $this->getConfiguration($configs, $container);
         /** @psalm-suppress PossiblyNullArgument */
@@ -38,15 +37,12 @@ class PlusFortaPdfExtension extends Extension
 
     }
 
-    /**
-     * @return string
-     */
     public function getAlias(): string
     {
         return 'plusforta_pdf';
     }
 
-    private function getMode(array $config)
+    private function getMode(array $config): mixed
     {
         return $config['direct_mode'];
     }
@@ -75,7 +71,7 @@ class PlusFortaPdfExtension extends Extension
         return $config['pdf']['fonts_directory'];
     }
 
-    private function getTemplateDirectoryPrefix(array $config)
+    private function getTemplateDirectoryPrefix(array $config): string
     {
         $directory = $config['template_directory'];
         if ($directory === false) {
@@ -83,10 +79,11 @@ class PlusFortaPdfExtension extends Extension
         }
 
         $templateDir = rtrim($directory, '/');
+
         return "$templateDir/";
     }
 
-    private function getFileExtension(array $config)
+    private function getFileExtension(array $config): string
     {
         $extension = $config['file_extension'];
         if ($extension === null) {
@@ -94,6 +91,7 @@ class PlusFortaPdfExtension extends Extension
         }
 
         $fileExtension = trim($extension, '.');
+
         return ".$fileExtension";
     }
 }
