@@ -3,32 +3,16 @@
 
 namespace PlusForta\PdfBundle\Html;
 
-use Psr\Log\LoggerInterface;
 use Twig\Environment;
 
 class TwigRenderer implements TemplateEngineInterface
 {
-
-    /** @var Environment */
-    private $twig;
-
-    /** @var LoggerInterface */
-    private $logger;
-    /**
-     * @var string
-     */
-    private $templateDirPrefix;
-    /**
-     * @var string
-     */
-    private $fileExtension;
-
-    public function __construct(LoggerInterface $logger, Environment $twig, string $templateDirPrefix, string $fileExtension)
+    public function __construct(
+        private readonly Environment $twig,
+        private readonly string $templateDirPrefix,
+        private readonly string $fileExtension
+    )
     {
-        $this->twig = $twig;
-        $this->logger = $logger;
-        $this->templateDirPrefix = $templateDirPrefix;
-        $this->fileExtension = $fileExtension;
     }
 
     /**

@@ -13,24 +13,20 @@ use Psr\Log\LoggerInterface;
 
 class MpdfRenderer implements PdfRendererInterface
 {
+    private Mpdf $pdf;
 
-    /** @var Mpdf */
-    private $pdf;
+    private LoggerInterface $logger;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var bool */
-    private $directMode;
+    private bool $directMode;
 
     /** @var string[] */
-    private $prependedPdfs = [];
+    private array $prependedPdfs = [];
 
     /** @var string[] */
-    private $appendedPdfs = [];
+    private array $appendedPdfs = [];
 
     /** @var array */
-    private $config;
+    private array $config;
 
     public function __construct(LoggerInterface $logger, bool $directMode, array $customFonts = null,string $customFontDirectory = null)
     {
@@ -54,6 +50,7 @@ class MpdfRenderer implements PdfRendererInterface
     {
         $fontVars = new FontVariables();
         $fontDefaults = $fontVars->getDefaults();
+
         return array_merge($fontDefaults['fontdata'], $customFonts);
     }
 
@@ -62,6 +59,7 @@ class MpdfRenderer implements PdfRendererInterface
         $commonVars = new ConfigVariables();
         $commonDefaults = $commonVars->getDefaults();
         $commonDefaults['fontDir'][] = $customDirectory;
+
         return $commonDefaults['fontDir'];
     }
 
@@ -116,6 +114,4 @@ class MpdfRenderer implements PdfRendererInterface
             $this->pdf->UseTemplate($importedPage);
         }
     }
-
-
 }

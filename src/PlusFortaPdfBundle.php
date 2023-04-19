@@ -18,6 +18,4 @@ class PlusFortaPdfBundle extends Bundle
         }
         return $this->extension;
     }
-
-
 }
