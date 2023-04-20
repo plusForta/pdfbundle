@@ -8,9 +8,9 @@ use Twig\Environment;
 class TwigRenderer implements TemplateEngineInterface
 {
     public function __construct(
-        private readonly Environment $twig,
-        private readonly string $templateDirPrefix,
-        private readonly string $fileExtension
+        private Environment $twig,
+        private string $templateDirPrefix,
+        private string $fileExtension
     )
     {
     }

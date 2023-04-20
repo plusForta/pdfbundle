@@ -16,8 +16,8 @@ class PlusFortaPdfRenderer
     private array $appendedPdfs = [];
 
     public function __construct(
-        private readonly PdfRendererInterface $pdf,
-        private readonly TemplateEngineInterface $templateEngine
+        private PdfRendererInterface $pdf,
+        private TemplateEngineInterface $templateEngine
     ){
     }
 
