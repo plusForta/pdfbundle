@@ -5,41 +5,30 @@ namespace PlusForta\PdfBundle\Html;
 
 use Psr\Log\LoggerInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class TwigRenderer implements TemplateEngineInterface
 {
-
-    /** @var Environment */
-    private $twig;
-
-    /** @var LoggerInterface */
-    private $logger;
-    /**
-     * @var string
-     */
-    private $templateDirPrefix;
-    /**
-     * @var string
-     */
-    private $fileExtension;
-
-    public function __construct(LoggerInterface $logger, Environment $twig, string $templateDirPrefix, string $fileExtension)
+    public function __construct(
+        private LoggerInterface $logger,
+        private Environment $twig,
+        private string $templateDirPrefix,
+        private string $fileExtension
+    )
     {
-        $this->twig = $twig;
-        $this->logger = $logger;
-        $this->templateDirPrefix = $templateDirPrefix;
-        $this->fileExtension = $fileExtension;
     }
 
     /**
      * @param string $templateName
      * @param array $context
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function render(string $templateName, $context): string
+    public function render(string $templateName, array $context): string
     {
         return $this->twig->render($this->templateDirPrefix . $templateName . $this->fileExtension, $context);
     }

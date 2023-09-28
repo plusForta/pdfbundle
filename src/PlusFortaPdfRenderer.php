@@ -9,23 +9,17 @@ use PlusForta\PdfBundle\Pdf\PdfRendererInterface;
 
 class PlusFortaPdfRenderer
 {
-    
-    /** @var PdfRendererInterface */
-    private $pdf;
-    
-    /** @var TemplateEngineInterface */
-    private $templateEngine;
+    /** @var string[] */
+    private array $prependedPdfs = [];
 
     /** @var string[] */
-    private $prependedPdfs = [];
+    private array $appendedPdfs = [];
 
-    /** @var string[] */
-    private $appendedPdfs = [];
-
-    public function __construct(PdfRendererInterface $pdf, TemplateEngineInterface $templateEngine)
+    public function __construct(
+        private PdfRendererInterface $pdf,
+        private TemplateEngineInterface $templateEngine
+    )
     {
-        $this->pdf = $pdf;
-        $this->templateEngine = $templateEngine;
     }
 
     public function prependPdf(array $files): void

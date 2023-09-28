@@ -14,25 +14,20 @@ use Psr\Log\LoggerInterface;
 class MpdfRenderer implements PdfRendererInterface
 {
 
-    /** @var Mpdf */
-    private $pdf;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var bool */
-    private $directMode;
+    private Mpdf $pdf;
 
     /** @var string[] */
-    private $prependedPdfs = [];
-
+    private array $prependedPdfs = [];
     /** @var string[] */
-    private $appendedPdfs = [];
+    private array $appendedPdfs = [];
+    private array $config;
 
-    /** @var array */
-    private $config;
-
-    public function __construct(LoggerInterface $logger, bool $directMode, array $customFonts = null,string $customFontDirectory = null)
+    public function __construct(
+        private LoggerInterface $logger,
+        private bool $directMode,
+        private ?array $customFonts = null,
+        private ?string $customFontDirectory = null
+    )
     {
         $logger->debug('direct_mode', ['direct_mode' => $directMode]);
 
@@ -46,8 +41,6 @@ class MpdfRenderer implements PdfRendererInterface
         }
 
         $this->config = $config;
-        $this->logger = $logger;
-        $this->directMode = $directMode;
     }
 
     private function getFonts(array $customFonts): array
@@ -67,11 +60,11 @@ class MpdfRenderer implements PdfRendererInterface
 
 
     /** @throws MpdfException */
-    public function render(string $html): string
+    public function render(string $template): string
     {
         $this->pdf = new Mpdf($this->config);
         $this->prependPages();
-        $this->pdf->WriteHTML($html);
+        $this->pdf->WriteHTML($template);
         $this->appendPages();
 
         return $this->pdf->Output('', Destination::STRING_RETURN);
@@ -116,6 +109,5 @@ class MpdfRenderer implements PdfRendererInterface
             $this->pdf->UseTemplate($importedPage);
         }
     }
-
 
 }
