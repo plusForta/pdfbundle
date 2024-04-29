@@ -2,6 +2,7 @@
     "name": "plusforta/pdf-bundle",
     "description": "Symfony Bundle to create PDFs",
     "type": "symfony-bundle",
+    "license": "MIT",
     "authors": [
         {
             "name": "Jan Hentschel",
