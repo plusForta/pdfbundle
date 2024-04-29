@@ -2,42 +2,30 @@
 
 ## Installation
 
-Zuerst muss das github-Repository zur composer.json hinzugefügt werden. 
-
-**composer.json**
-````json
-"repositories": [
-    ...
-    {
-        "type": "git",
-        "url": "https://github.com/plusForta/pdfbundle.git"
-    },
-  ],
-````
-
+You can install this package directly with composer:
 
 ```shell
-composer require plusforta/pdfbundle:dev-master
+composer require plusforta/pdfbundle
 ```
 
-## Verwendung
+## Usage
 
-Der Service `PlusForta\PdfBundle\PlusFortaPdfRenderer` kann per Dependency Injection verwendet werden (public Service).
-Um ein Template zu rendern (aktuell wird nur Twig und mPdf unterstüzt):
+The service `PlusForta\PdfBundle\PlusFortaPdfRenderer` can be used via dependency injection (public service).
+To render a template (currently only Twig and mPdf are supported):
 
 ```php
-pubclic function render(PlusForta\PdfBundle\PlusFortaPdfRenderer $pdf)
+public function render(PlusForta\PdfBundle\PlusFortaPdfRenderer $pdf)
 {
     $pdf->render($templateName, $context);
 }
 ``` 
 
-`$templateName` ist der Pfad zu einem Twig Tamplate (bsp. `pdf/application.html.twig`).
-`$context` ist der Context, der an das Twig Template weitergereicht wird (bsp. `['firstName' => 'Max', 'name' => 'Mustermann']`).
+`$templateName` is the path to a Twig template (e.g. `pdf/application.html.twig`).
+`$context` is the context that is passed on to the Twig template (e.g. `['firstName' => 'Max', 'name' => 'Mustermann']`).
 
 ## Settings 
 
-Die Settings können in `plusforta_pdf.yaml` gesetzt werden:
+The settings can be set in `plusforta_pdf.yaml`:
 
 ```
 plusforta_pdf:
@@ -46,7 +34,7 @@ plusforta_pdf:
     direct_mode: <true|false>
 ```
 
-Aktuell sind 3 wesentliche Eintstellungen möglich: 
+Currently, 3 main settings are possible:
 
 - template_directory
 - file_extension
@@ -55,25 +43,34 @@ Aktuell sind 3 wesentliche Eintstellungen möglich:
 
 ### template_directory
 
-Mit template_directory lässt sich ein relativer Pfad angeben, wo die Templates (aktuelle twig Templates) zu finden sind.
-Der Pfad ist relativ zum default_path von Twig.
+With template_directory you can specify a relative path where the templates (current twig templates) can be found.
+The path is relative to the default_path of Twig.
 
 
 ### file_extension
 
-Mit file_extension läasst sich die Dateiendnung der Template Dateien festlegen (bsp. html.twig).
+With file_extension the file extension of the template files can be defined (e.g. html.twig).
 
-Mit der Kombination aus template_directory und file_extension können so Templates auf den Namen reduziert werden
+With the combination of template_directory and file_extension, templates can be reduced to the name
+
+instead of
+```
+$pdf->render('pdf/application.html.twig');
+```
+
+with the following settings
 
 ```
-statt
-$pdf->render('pdf/application.html.twig');
-
-
 template_dir = pdf
 file_extension = html.twig
+```
 
-kann dann folgendes geschrieben werden
-$pdf->render('application'); 
+then the following works identically:
 
 ```
+$pdf->render('application'); 
+```
+
+### direct_mode
+
+Currently direct mode has no effect.  
