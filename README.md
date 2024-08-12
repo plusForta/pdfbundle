@@ -23,17 +23,6 @@ public function render(PlusForta\PdfBundle\PlusFortaPdfRenderer $pdf)
 `$templateName` is the path to a Twig template (e.g. `pdf/application.html.twig`).
 `$context` is the context that is passed on to the Twig template (e.g. `['firstName' => 'Max', 'name' => 'Mustermann']`).
 
-
-## Versions
-
-1.0.0 - Initial version, Symfony 5
-1.1.0 - Added configuration as a setting
-1.1.1 - composer upgrade
-1.2.0 - Added return types
-1.3.0 - README added, symfony upgraded to version 6
-1.3.1 - Move to packagist - added LICENSE, translated README to english, moved symfony back to 5.4?
-1.3.2 - Added debugging logs
-
 ## Settings 
 
 The settings can be set in `plusforta_pdf.yaml`:
