@@ -34,7 +34,6 @@ public function render(PlusForta\PdfBundle\PlusFortaPdfRenderer $pdf)
 1.3.1 - Move to packagist - added LICENSE, translated README to english, moved symfony back to 5.4?
 1.3.2 - Added debugging logs
 1.3.3 - revert adding psr/log
-1.3.4 - add monolog bundle instead
 
 ## Settings 
 
