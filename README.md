@@ -17,7 +17,7 @@ composer require plusforta/pdfbundle
 1.2.0 - Added return types
 1.3.0 - README added, symfony upgraded to version 6
 1.3.1 - Move to packagist - added LICENSE, translated README to english, moved symfony back to 5.4?
-
+1.3.5 - Add syslog for asset link for generation of pdfs
 
 ## Usage
 

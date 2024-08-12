@@ -41,6 +41,12 @@ class PlusFortaPdfRenderer
     public function render(string $templateName, array $context):string
     {
         $template = $this->renderHtml($templateName, $context);
+        # Find all stylesheets in the rendered HTML
+        $stylesheets = [];
+        preg_match('/<link rel="stylesheet" href="([^"]+)"/i', $template, $stylesheets);
+        if (isset($stylesheets[1])) {
+            syslog(LOG_INFO, sprintf("Found stylesheet: %2", $stylesheets[1]));
+        }
         $this->pdf->prependPdf($this->prependedPdfs);
         $this->pdf->appendPdf($this->appendedPdfs);
         return $this->pdf->render($template);
