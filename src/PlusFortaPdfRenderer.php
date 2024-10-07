@@ -45,7 +45,7 @@ class PlusFortaPdfRenderer
         $stylesheets = [];
         preg_match('/<link rel="stylesheet" href="([^"]+)"/i', $template, $stylesheets);
         if (isset($stylesheets[1])) {
-            syslog(LOG_INFO, sprintf("Found stylesheet: %2", $stylesheets[1]));
+            syslog(LOG_INFO, sprintf("Found stylesheet: %s", $stylesheets[1]));
         }
         $this->pdf->prependPdf($this->prependedPdfs);
         $this->pdf->appendPdf($this->appendedPdfs);
